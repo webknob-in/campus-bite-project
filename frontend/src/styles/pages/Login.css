@@ -1,0 +1,47 @@
+/* Auth pages (Login and Register share this layout). Requirements 33.4, 35.1. */
+.auth-page {
+  display: flex;
+  justify-content: center;
+  padding: var(--space-6) var(--space-4);
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 440px;
+  padding: var(--space-6);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+}
+
+.auth-card--wide {
+  max-width: 640px;
+}
+
+.auth-subtitle {
+  margin-bottom: var(--space-4);
+  color: var(--color-text-muted);
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.auth-switch {
+  margin-top: var(--space-4);
+  text-align: center;
+  color: var(--color-text-muted);
+}
+
+.auth-card .error-message {
+  margin-bottom: var(--space-4);
+}
+
+@media (max-width: 480px) {
+  .auth-card {
+    padding: var(--space-4);
+  }
+}
