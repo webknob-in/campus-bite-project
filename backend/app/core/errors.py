@@ -2,14 +2,17 @@
 
 Services and dependencies raise these exceptions; ``register_exception_handlers``
 maps each one to its HTTP status code (Req 41.3, 41.4). Pydantic validation errors
-(422) and Starlette ``HTTPException`` (unknown route, wrong method) already produce a
-``{"detail": ...}`` body through FastAPI's default handlers.
+(422) produce a ``{"detail": [...]}`` body through ``validation_error_handler``, which strips
+card and password values from the echoed ``input``. Starlette ``HTTPException`` (unknown route,
+wrong method) already produces a ``{"detail": ...}`` body through FastAPI's default handler.
 """
 
 import math
 from collections.abc import Mapping
 
 from fastapi import FastAPI, Request
+from fastapi.encoders import jsonable_encoder
+from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 
 
@@ -117,6 +120,55 @@ async def unhandled_error_handler(request: Request, exc: Exception) -> JSONRespo
     return JSONResponse(status_code=500, content={"detail": "Internal server error"})
 
 
+_SENSITIVE_KEYS = {"card_number", "cvv", "payment"}
+_REDACTED = "[redacted]"
+
+
+def _is_sensitive_key(key: object) -> bool:
+    text = str(key).lower()
+    return "password" in text or text in _SENSITIVE_KEYS
+
+
+def _scrub(value: object) -> object:
+    """Copy ``value`` with the values of sensitive keys replaced (the original is not changed)."""
+    if isinstance(value, dict):
+        return {k: _REDACTED if _is_sensitive_key(k) else _scrub(v) for k, v in value.items()}
+    if isinstance(value, list | tuple):
+        return [_scrub(v) for v in value]
+    if isinstance(value, float) and not math.isfinite(value):
+        return str(value)  # a body with NaN/Infinity must not make the 422 body unserialisable
+    return value
+
+
+def sanitize_validation_errors(errors: list[dict]) -> list[dict]:
+    """Remove submitted values that must not be echoed back from Pydantic validation errors.
+
+    FastAPI's 422 body repeats each failing field's ``input``. For errors located under
+    ``body.payment`` or at a ``password`` field, ``input`` and ``ctx`` are dropped. For every
+    other error, sensitive keys inside a dict ``input`` are redacted (Pydantic reports the whole
+    parent object as ``input`` when a sibling field is missing). The shape stays unchanged.
+    """
+    sanitized: list[dict] = []
+    for error in errors:
+        loc = tuple(error.get("loc", ()))
+        error = dict(error)
+        if loc[:2] == ("body", "payment") or any("password" in str(part).lower() for part in loc):
+            error.pop("input", None)
+            error.pop("ctx", None)
+        elif "input" in error:
+            error["input"] = _scrub(error["input"])
+        sanitized.append(error)
+    return sanitized
+
+
+async def validation_error_handler(request: Request, exc: RequestValidationError) -> JSONResponse:
+    return JSONResponse(
+        status_code=422,
+        content={"detail": jsonable_encoder(sanitize_validation_errors(list(exc.errors())))},
+    )
+
+
 def register_exception_handlers(app: FastAPI) -> None:
+    app.add_exception_handler(RequestValidationError, validation_error_handler)  # type: ignore[arg-type]
     app.add_exception_handler(DomainError, domain_error_handler)  # type: ignore[arg-type]
     app.add_exception_handler(Exception, unhandled_error_handler)
