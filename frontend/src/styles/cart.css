@@ -1,0 +1,5 @@
+/* Cart restaurant-switch confirmation dialog (rendered by CartProvider). */
+.cart-switch-message {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
