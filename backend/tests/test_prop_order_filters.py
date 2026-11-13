@@ -17,7 +17,7 @@ from app.api import deps
 from app.main import app as fastapi_app
 from app.models import Order, OrderStatus
 
-from .factories import make_customer, make_order
+from .factories import make_customer, make_order, make_owner, make_restaurant
 
 BASE_DAY = date(2025, 3, 10)
 STATUSES = list(OrderStatus)
@@ -158,3 +158,75 @@ def test_customer_order_filters_reject_invalid_params(client: TestClient, db, au
         "/orders/me", headers=headers, params={"date_from": "2025-03-11", "date_to": "2025-03-10"}
     )
     assert res.status_code == 422
+
+
+@given(
+    mine=st.lists(st.tuples(st.sampled_from(STATUSES), created_ats, st.integers(0, 2)), max_size=12),
+    others=st.lists(st.tuples(st.sampled_from(STATUSES), created_ats), max_size=4),
+    status=st.one_of(st.none(), st.sampled_from(STATUSES)),
+    date_from=days,
+    date_to=days,
+)
+@settings(
+    max_examples=100,
+    deadline=None,
+    suppress_health_check=[HealthCheck.function_scoped_fixture, HealthCheck.too_slow],
+)
+def test_owner_order_filters_match_model(
+    client: TestClient,
+    db_example: Callable[[], object],
+    auth_headers: Callable[..., dict[str, str]],
+    mine: list[tuple[OrderStatus, datetime, int]],
+    others: list[tuple[OrderStatus, datetime]],
+    status: OrderStatus | None,
+    date_from: date | None,
+    date_to: date | None,
+) -> None:
+    """Feature: campusbite-platform, Property 14: Order filters match model
+
+    **Validates: Requirements 17.2, 17.3**
+    """
+    with db_example() as db:
+
+        def _get_db() -> Iterator[Session]:
+            try:
+                yield db
+                db.commit()
+            except Exception:
+                db.rollback()
+                raise
+
+        fastapi_app.dependency_overrides[deps.get_db] = _get_db
+
+        owner = make_owner(db)
+        restaurant = make_restaurant(db, owner)
+        other_restaurant = make_restaurant(db)
+        customers = [make_customer(db) for _ in range(3)]
+        orders = [
+            make_order(db, s, customer=customers[ci], restaurant=restaurant, created_at=c)
+            for s, c, ci in mine
+        ]
+        for s, c in others:
+            make_order(db, s, customer=customers[0], restaurant=other_restaurant, created_at=c)
+
+        headers = auth_headers(owner)
+        check_order_filters(client, "/owner/orders", headers, orders, status, date_from, date_to)
+
+        if date_from is not None and date_to is not None and date_from > date_to:
+            return
+        params: dict[str, str] = {"page_size": "100"}
+        if status is not None:
+            params["status"] = status.value
+        if date_from is not None:
+            params["date_from"] = date_from.isoformat()
+        if date_to is not None:
+            params["date_to"] = date_to.isoformat()
+        items = client.get("/owner/orders", headers=headers, params=params).json()["items"]
+        by_id = {o.id: o for o in orders}
+        for row in items:
+            o = by_id[row["id"]]
+            assert row["customer_name"] == o.customer.name
+            if o.delivery_partner_id is None:
+                assert row["delivery_partner"] is None
+            else:
+                assert row["delivery_partner"]["id"] == o.delivery_partner_id
