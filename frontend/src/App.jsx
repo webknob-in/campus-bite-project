@@ -12,6 +12,9 @@ import RestaurantList from "./pages/RestaurantList.jsx";
 import RestaurantMenu from "./pages/RestaurantMenu.jsx";
 import DishSearch from "./pages/DishSearch.jsx";
 import CartCheckout from "./pages/CartCheckout.jsx";
+import CustomerDashboard from "./pages/CustomerDashboard.jsx";
+import OrderDetail from "./pages/OrderDetail.jsx";
+import AIInsights from "./pages/AIInsights.jsx";
 import { ROLES } from "./utils/roles.js";
 
 export default function App() {
@@ -70,7 +73,32 @@ export default function App() {
             }
           />
 
-          {/* Task 14.6: remaining customer routes (orders, customer dashboard, insights). */}
+          {/* Customer-only pages: dashboard, order detail, AI insights (Requirement 35.3). */}
+          <Route
+            path="/customer/dashboard"
+            element={
+              <ProtectedRoute allowedRoles={[ROLES.CUSTOMER]}>
+                <CustomerDashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/orders/:id"
+            element={
+              <ProtectedRoute allowedRoles={[ROLES.CUSTOMER]}>
+                <OrderDetail />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/insights"
+            element={
+              <ProtectedRoute allowedRoles={[ROLES.CUSTOMER]}>
+                <AIInsights />
+              </ProtectedRoute>
+            }
+          />
+
           {/* Task 15.4: restaurant owner routes (/owner/*). */}
           {/* Task 16.3: delivery partner routes (/partner/*). */}
 
