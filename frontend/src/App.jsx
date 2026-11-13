@@ -18,6 +18,8 @@ import AIInsights from "./pages/AIInsights.jsx";
 import OwnerDashboard from "./pages/OwnerDashboard.jsx";
 import MenuManagement from "./pages/MenuManagement.jsx";
 import OrderManagement from "./pages/OrderManagement.jsx";
+import PartnerDashboard from "./pages/PartnerDashboard.jsx";
+import DeliveryHistory from "./pages/DeliveryHistory.jsx";
 import { ROLES } from "./utils/roles.js";
 
 export default function App() {
@@ -128,8 +130,25 @@ export default function App() {
             }
           />
 
-          {/* Task 16.3: delivery partner routes (/partner/*). */}
+          {/* Delivery partner routes (Requirements 32.4, 35.5). */}
+          <Route
+            path="/partner/dashboard"
+            element={
+              <ProtectedRoute allowedRoles={[ROLES.DELIVERY_PARTNER]}>
+                <PartnerDashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/partner/history"
+            element={
+              <ProtectedRoute allowedRoles={[ROLES.DELIVERY_PARTNER]}>
+                <DeliveryHistory />
+              </ProtectedRoute>
+            }
+          />
 
+          {/* Anything else. */}
           <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
