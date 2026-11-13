@@ -1,0 +1,229 @@
+/* ==========================================================================
+   CampusBite shared component styles (plain CSS)
+   - Loader, ErrorMessage, Pagination, StatusBadge, Modal, and FormField extras.
+   - Must be imported AFTER base.css (it relies on base.css variables and
+     `.btn` / `.form-field` rules). Task 12.7 adds the global import in main.jsx.
+   - Breakpoints match base.css: 768px (tablet) and 480px (phone).
+   ========================================================================== */
+
+/* ---------- Loader ---------- */
+.loader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  padding: var(--space-6) var(--space-4);
+  color: var(--color-text-muted);
+}
+
+.loader-spinner {
+  flex: none;
+  width: 1.5rem;
+  height: 1.5rem;
+  border: 3px solid var(--color-border);
+  border-top-color: var(--color-primary);
+  border-radius: 50%;
+  animation: loader-spin 0.8s linear infinite;
+}
+
+@keyframes loader-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .loader-spinner {
+    animation-duration: 2.4s;
+  }
+}
+
+/* ---------- ErrorMessage ---------- */
+.error-message {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  background: #fdeaea;
+  border: 1px solid #f0b8b8;
+  border-left: 4px solid var(--color-danger);
+  border-radius: var(--radius-md);
+  color: #8e1b1b;
+}
+
+.error-message-text {
+  flex: 1 1 12rem;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+/* ---------- Pagination ---------- */
+.pagination {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  margin-top: var(--space-5);
+}
+
+.pagination-status {
+  min-width: 7rem;
+  text-align: center;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+}
+
+/* ---------- StatusBadge ---------- */
+.badge {
+  display: inline-block;
+  padding: 0.125rem var(--space-3);
+  border: 1px solid transparent;
+  border-radius: 999px;
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  line-height: 1.5;
+  white-space: nowrap;
+}
+
+.badge-info {
+  background: #e3f0fc;
+  border-color: #b6d4f2;
+  color: #0d47a1;
+}
+
+.badge-progress {
+  background: #fff3dc;
+  border-color: #f1d08f;
+  color: #7a4700;
+}
+
+.badge-transit {
+  background: #efe7fa;
+  border-color: #cfbbee;
+  color: #4a2a85;
+}
+
+.badge-success {
+  background: #e4f4e5;
+  border-color: #a9d6ac;
+  color: #1b5e20;
+}
+
+.badge-danger {
+  background: #fdeaea;
+  border-color: #f0b8b8;
+  color: #8e1b1b;
+}
+
+.badge-neutral {
+  background: #eceff1;
+  border-color: #cfd8dc;
+  color: #37474f;
+}
+
+/* ---------- Modal ---------- */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: var(--space-5) var(--space-4);
+  overflow-y: auto;
+  background: rgba(31, 41, 51, 0.55);
+}
+
+.modal {
+  width: 100%;
+  max-width: 520px;
+  margin-block: auto;
+  background: var(--color-surface);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+}
+
+.modal:focus {
+  outline: none;
+}
+
+.modal-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-4) var(--space-4) var(--space-2);
+}
+
+.modal-title {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.modal-close {
+  flex: none;
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  color: var(--color-text-muted);
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.modal-close:hover {
+  background: var(--color-bg);
+  color: var(--color-text);
+}
+
+.modal-body {
+  padding: var(--space-2) var(--space-4) var(--space-4);
+}
+
+.modal-footer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-4) var(--space-4);
+  border-top: 1px solid var(--color-border);
+}
+
+/* ---------- FormField extras (base.css covers .form-field, label, input, .field-error) ---------- */
+.required-mark {
+  color: var(--color-danger);
+}
+
+.field-hint {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+}
+
+/* ==========================================================================
+   Responsive adjustments
+   ========================================================================== */
+
+/* Phone: dialog fills the width, footer buttons stack full width. */
+@media (max-width: 480px) {
+  .modal-backdrop {
+    padding: var(--space-3);
+  }
+
+  .modal-footer {
+    flex-direction: column-reverse;
+  }
+
+  .modal-footer .btn {
+    width: 100%;
+  }
+
+  .error-message .btn {
+    width: 100%;
+  }
+}
