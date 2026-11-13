@@ -1,0 +1,12 @@
+.dish-search-page .empty-state {
+  padding: var(--space-6) 0;
+  text-align: center;
+}
+
+.dish-grid > li {
+  min-width: 0;
+}
+
+.dish-search-page .restaurant-link {
+  font-weight: 600;
+}

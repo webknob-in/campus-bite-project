@@ -1,0 +1,20 @@
+.restaurant-search {
+  max-width: 480px;
+  margin-bottom: var(--space-5);
+}
+
+.restaurant-grid > li,
+.restaurant-grid {
+  min-width: 0;
+}
+
+.restaurant-list-page .empty-state {
+  padding: var(--space-6) 0;
+  text-align: center;
+}
+
+@media (max-width: 480px) {
+  .restaurant-search {
+    max-width: 100%;
+  }
+}
