@@ -15,6 +15,9 @@ import CartCheckout from "./pages/CartCheckout.jsx";
 import CustomerDashboard from "./pages/CustomerDashboard.jsx";
 import OrderDetail from "./pages/OrderDetail.jsx";
 import AIInsights from "./pages/AIInsights.jsx";
+import OwnerDashboard from "./pages/OwnerDashboard.jsx";
+import MenuManagement from "./pages/MenuManagement.jsx";
+import OrderManagement from "./pages/OrderManagement.jsx";
 import { ROLES } from "./utils/roles.js";
 
 export default function App() {
@@ -99,7 +102,32 @@ export default function App() {
             }
           />
 
-          {/* Task 15.4: restaurant owner routes (/owner/*). */}
+          {/* Restaurant owner routes (Requirement 35.4). */}
+          <Route
+            path="/owner/dashboard"
+            element={
+              <ProtectedRoute allowedRoles={[ROLES.RESTAURANT_OWNER]}>
+                <OwnerDashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/owner/menu"
+            element={
+              <ProtectedRoute allowedRoles={[ROLES.RESTAURANT_OWNER]}>
+                <MenuManagement />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/owner/orders"
+            element={
+              <ProtectedRoute allowedRoles={[ROLES.RESTAURANT_OWNER]}>
+                <OrderManagement />
+              </ProtectedRoute>
+            }
+          />
+
           {/* Task 16.3: delivery partner routes (/partner/*). */}
 
           <Route path="*" element={<NotFound />} />

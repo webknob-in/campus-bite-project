@@ -1,0 +1,47 @@
+.partner-dashboard-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.partner-filter {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin: 0.5rem 0 1rem;
+}
+
+.partner-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+}
+
+.partner-card p {
+  margin: 0.25rem 0;
+}
+
+.partner-card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.partner-card-head h2 {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.partner-card .btn {
+  margin-top: 0.5rem;
+}
+
+.partner-card-error {
+  color: #b00020;
+}
