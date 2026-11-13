@@ -9,6 +9,9 @@ T = TypeVar("T")
 
 MAX_PAGE_SIZE = 100
 DEFAULT_PAGE_SIZE = 10
+# Upper bound for ``page`` so ``OFFSET = (page - 1) * page_size`` (at most 10**14) always fits
+# PostgreSQL's BIGINT. Larger values would make the database raise an error (HTTP 500).
+MAX_PAGE = 10**12
 
 
 class Page(BaseModel, Generic[T]):
@@ -23,14 +26,14 @@ class Page(BaseModel, Generic[T]):
 class PageParams:
     """FastAPI dependency parsing ``page`` and ``page_size`` query parameters.
 
-    ``page`` must be >= 1 (default 1) and ``page_size`` must be 1-100 (default 10);
+    ``page`` must be 1-``MAX_PAGE`` (default 1) and ``page_size`` must be 1-100 (default 10);
     any other value is rejected with HTTP 422 by FastAPI's query validation
     (Req 27.1, 27.2, 27.4). Use as ``params: PageParams = Depends()``.
     """
 
     def __init__(
         self,
-        page: Annotated[int, Query(ge=1, description="1-based page number")] = 1,
+        page: Annotated[int, Query(ge=1, le=MAX_PAGE, description="1-based page number")] = 1,
         page_size: Annotated[
             int, Query(ge=1, le=MAX_PAGE_SIZE, description="Items per page (1-100)")
         ] = DEFAULT_PAGE_SIZE,
