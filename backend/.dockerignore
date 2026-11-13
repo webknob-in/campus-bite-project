@@ -1,0 +1,17 @@
+# Secrets: never copy environment files into the image (the example file is kept).
+**/.env
+**/.env.*
+.env*
+!.env.example
+
+# Python artifacts and virtual environments
+.venv
+venv
+**/__pycache__
+**/*.pyc
+.pytest_cache
+.hypothesis
+
+# Tests and local tooling are not needed at runtime
+tests/
+.git
