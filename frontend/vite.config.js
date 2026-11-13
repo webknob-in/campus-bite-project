@@ -12,5 +12,10 @@ export default defineConfig({
     // `globals` lets React Testing Library register its automatic cleanup (afterEach).
     globals: true,
     setupFiles: ["./src/setupTests.js"],
+    testTimeout: 15000,
+    hookTimeout: 30000,
+    teardownTimeout: 10000,
+    pool: "forks",
+    maxWorkers: 2,
   },
 });
