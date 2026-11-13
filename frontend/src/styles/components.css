@@ -205,9 +205,159 @@
   color: var(--color-text-muted);
 }
 
+/* ---------- Navbar ---------- */
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--color-secondary);
+  color: #ffffff;
+  box-shadow: var(--shadow-sm);
+}
+
+.navbar-inner {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  width: 100%;
+  max-width: var(--container-max);
+  margin-inline: auto;
+  padding: var(--space-3) var(--space-4);
+}
+
+.navbar-brand {
+  flex: none;
+  color: #ffffff;
+  font-size: var(--font-size-lg);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.navbar-menu {
+  display: flex;
+  flex: 1 1 auto;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  min-width: 0;
+}
+
+.navbar-links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.navbar-link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-sm);
+  color: #e6e9eb;
+  text-decoration: none;
+}
+
+.navbar-link:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+}
+
+.navbar-link.active {
+  background: rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.navbar-user {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.navbar-user-name {
+  max-width: 12rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: var(--font-size-sm);
+  color: #e6e9eb;
+}
+
+.navbar-toggle {
+  display: none;
+  flex: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  width: 2.5rem;
+  height: 2.5rem;
+  padding: 0;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+}
+
+.navbar-toggle-bar {
+  display: block;
+  width: 1.25rem;
+  height: 2px;
+  background: #ffffff;
+}
+
+.navbar :focus-visible {
+  outline-color: #ffffff;
+}
+
 /* ==========================================================================
    Responsive adjustments
    ========================================================================== */
+
+/* Tablet and below: the Navbar links collapse behind the hamburger toggle. */
+@media (max-width: 768px) {
+  .navbar-toggle {
+    display: flex;
+  }
+
+  .navbar-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    align-items: stretch;
+    padding: var(--space-3) var(--space-4) var(--space-4);
+    background: var(--color-secondary);
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: var(--shadow-md);
+  }
+
+  .navbar-menu.is-open {
+    display: flex;
+  }
+
+  .navbar-links {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .navbar-link {
+    padding: var(--space-3);
+  }
+
+  .navbar-user {
+    justify-content: space-between;
+    padding-top: var(--space-3);
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+  }
+}
 
 /* Phone: dialog fills the width, footer buttons stack full width. */
 @media (max-width: 480px) {
