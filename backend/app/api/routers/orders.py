@@ -12,7 +12,8 @@ from app.api.deps import get_db, require_roles
 from app.models import Role, User
 from app.schemas.common import Page, PageParams
 from app.schemas.order import OrderCreate, OrderDetailOut, OrderOut
-from app.services import order_service
+from app.schemas.review import ReviewCreatedOut, ReviewIn
+from app.services import order_service, review_service
 from app.services.filters import OrderFilterParams
 
 router = APIRouter(prefix="/orders", tags=["orders"])
@@ -71,6 +72,27 @@ def get_order(
     db: Session = Depends(get_db),
 ) -> OrderDetailOut:
     return OrderDetailOut.from_order(order_service.get_order_detail(db, customer, order_id))
+
+
+@router.post(
+    "/{order_id}/review",
+    response_model=ReviewCreatedOut,
+    status_code=201,
+    summary="Review a delivered or refunded order",
+    responses={
+        **_ORDER_RESPONSES,
+        409: {"description": "Order not DELIVERED/REFUNDED, or already reviewed."},
+        422: {"description": "Invalid rating or comment."},
+    },
+)
+def review_order(
+    order_id: int,
+    body: ReviewIn,
+    customer: User = Depends(require_roles(Role.CUSTOMER)),
+    db: Session = Depends(get_db),
+) -> ReviewCreatedOut:
+    review = review_service.create_review(db, customer, order_id, body)
+    return ReviewCreatedOut.model_validate(review)
 
 
 @router.post(
