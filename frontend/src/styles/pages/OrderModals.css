@@ -1,0 +1,72 @@
+/* Review and return request modals. Requirements 14.1, 14.5, 15.1, 15.5. */
+.order-modal-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.order-modal-form textarea {
+  width: 100%;
+  resize: vertical;
+}
+
+.star-rating {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  min-width: 0;
+}
+
+.star-rating legend {
+  padding: 0;
+  margin-bottom: var(--space-2);
+  font-weight: 600;
+}
+
+.star-rating-options {
+  display: flex;
+  gap: var(--space-1);
+}
+
+.star-option {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border: 1px solid transparent;
+  border-radius: var(--radius-md);
+  color: var(--color-border);
+  font-size: 1.75rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.star-option:hover .star-glyph {
+  color: var(--color-warning);
+}
+
+.star-option--filled {
+  color: var(--color-warning);
+}
+
+.star-option--selected {
+  border-color: var(--color-warning);
+  background: #fff8e1;
+}
+
+/* The radio input is visually hidden; show keyboard focus on its star. */
+.star-option:has(input:focus-visible) {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+.star-glyph {
+  color: inherit;
+}
+
+.star-rating-value {
+  margin: var(--space-2) 0 0;
+  font-size: 0.9rem;
+}
