@@ -155,6 +155,7 @@ textarea {
 /* ---------- Layout helpers ---------- */
 .container {
   width: 100%;
+  overflow-wrap: anywhere;
   max-width: var(--container-max);
   margin-inline: auto;
   padding-inline: var(--space-4);
@@ -375,6 +376,7 @@ textarea {
 @media (max-width: 768px) {
   :root {
     --grid-min-col: 220px;
+    --control-height: 2.75rem; /* 44px touch targets */
   }
 
   h1 {
@@ -383,6 +385,10 @@ textarea {
 
   .container {
     padding-block: var(--space-4);
+  }
+
+  .btn-sm {
+    min-height: 2.75rem;
   }
 }
 

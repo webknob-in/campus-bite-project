@@ -337,6 +337,8 @@
 @media (max-width: 768px) {
   .navbar-toggle {
     display: flex;
+    width: 2.75rem;
+    height: 2.75rem;
   }
 
   .navbar-menu {
@@ -364,6 +366,7 @@
 
   .navbar-link {
     padding: var(--space-3);
+    min-height: 2.75rem;
   }
 
   .navbar-user {
