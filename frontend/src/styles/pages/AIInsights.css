@@ -1,0 +1,72 @@
+.ai-insights-page {
+  max-width: 760px;
+}
+
+.ai-insights-intro {
+  margin: 0 0 var(--space-5);
+}
+
+.ai-insights-section {
+  margin-bottom: var(--space-5);
+}
+
+.ai-insights-section-title {
+  margin: 0 0 var(--space-3);
+  font-size: var(--font-size-lg);
+}
+
+.ai-insights-presets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.ai-insights-summary-action {
+  margin-top: var(--space-3);
+}
+
+.ai-insights-form-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.ai-insights-counter {
+  font-size: var(--font-size-sm);
+  font-variant-numeric: tabular-nums;
+}
+
+.ai-insights-counter-over {
+  color: var(--color-danger);
+  font-weight: 600;
+}
+
+.ai-insights-response-card {
+  padding: var(--space-4);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+}
+
+/* Plain text from the AI: keep its line breaks and wrap long words. */
+.ai-insights-answer {
+  margin: 0 0 var(--space-3);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.ai-insights-response-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1) var(--space-4);
+  margin: 0;
+  font-size: var(--font-size-sm);
+}
+
+@media (max-width: 480px) {
+  .ai-insights-presets .btn {
+    width: 100%;
+  }
+}
