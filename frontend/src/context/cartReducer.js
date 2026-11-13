@@ -38,6 +38,7 @@ export function cartReducer(state, action) {
       const q = action.quantity;
       if (q <= 0) return cartReducer(state, { type: "REMOVE", id: action.id });
       if (!Number.isInteger(q) || q > MAX_QUANTITY) return state;
+      if (!state.items.some((l) => l.id === action.id)) return state;
       return { ...state, items: state.items.map((l) => (l.id === action.id ? { ...l, quantity: q } : l)) };
     }
     case "REMOVE": {
