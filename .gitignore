@@ -1,0 +1,20 @@
+# Environment files (secrets) - never commit; the example files are tracked
+.env
+.env.*
+!.env.example
+
+# Node
+node_modules/
+dist/
+coverage/
+
+# Python
+.venv/
+venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.hypothesis/
+
+# Vercel
+.vercel/
