@@ -3,6 +3,8 @@
 // Every validator returns an error message, or `undefined` when the value is valid.
 // Card data is only validated here; nothing in this module stores or logs it.
 
+import { formatCurrency } from "./format.js";
+
 export const ADDRESS_MIN = 5;
 export const ADDRESS_MAX = 300;
 export const HOLDER_MIN = 2;
@@ -22,12 +24,12 @@ export function toCents(price) {
   return Number.isFinite(value) ? Math.round(value * 100) : 0;
 }
 
-/** Formats a price (number or decimal string) with two decimals, e.g. `$12.50`. */
+/** Formats a price (number or decimal string) as INR with two decimals, e.g. `₹12.50`. */
 export function formatPrice(price) {
-  return `$${(toCents(price) / 100).toFixed(2)}`;
+  return formatCurrency(price);
 }
 
-/** Line total (price x quantity) in dollars, computed in integer cents. */
+/** Line total (price x quantity) in rupees, computed in integer paise. */
 export function lineTotal(price, quantity) {
   return (toCents(price) * quantity) / 100;
 }

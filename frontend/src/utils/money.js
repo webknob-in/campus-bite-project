@@ -1,9 +1,10 @@
 // Price display and price-filter validation for the browsing pages (Requirements 8.8, 9.5, 9.7).
 
-/** Formats a decimal string or number such as "12.5" as "$12.50". Invalid values show "$0.00". */
+import { formatCurrency } from "./format.js";
+
+/** Formats a decimal string or number such as "12.5" as "₹12.50". Invalid values show "—". */
 export function formatPrice(price) {
-  const value = typeof price === "number" ? price : Number(String(price ?? "").trim() || NaN);
-  return `$${(Number.isFinite(value) ? value : 0).toFixed(2)}`;
+  return formatCurrency(price);
 }
 
 function checkNumber(raw) {

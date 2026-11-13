@@ -1,11 +1,18 @@
-// App: Navbar above the routed page content (Requirements 1.4, 32.3, 35.1).
+// App: Navbar above the routed page content (Requirements 1.4, 10.5, 32.3, 35.1-35.3).
 // Providers (BrowserRouter, AuthProvider, CartProvider) are set up in main.jsx.
-import { Navigate, Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
+import BrowseRoute from "./components/BrowseRoute.jsx";
 import Navbar from "./components/Navbar.jsx";
+import ProtectedRoute from "./components/ProtectedRoute.jsx";
 import PublicOnlyRoute from "./components/PublicOnlyRoute.jsx";
 import Login from "./pages/Login.jsx";
 import Register from "./pages/Register.jsx";
 import NotFound from "./pages/NotFound.jsx";
+import RestaurantList from "./pages/RestaurantList.jsx";
+import RestaurantMenu from "./pages/RestaurantMenu.jsx";
+import DishSearch from "./pages/DishSearch.jsx";
+import CartCheckout from "./pages/CartCheckout.jsx";
+import { ROLES } from "./utils/roles.js";
 
 export default function App() {
   return (
@@ -13,9 +20,39 @@ export default function App() {
       <Navbar />
       <main className="container">
         <Routes>
-          {/* Task 13.7: replace this temporary "/" redirect with the real "/" and the public
-              browsing routes (/restaurants, /restaurants/:id, /dishes). */}
-          <Route path="/" element={<Navigate to="/login" replace />} />
+          {/* Browsing: visitors and Customers; owners and partners go to their role home. */}
+          <Route
+            path="/"
+            element={
+              <BrowseRoute>
+                <RestaurantList />
+              </BrowseRoute>
+            }
+          />
+          <Route
+            path="/restaurants"
+            element={
+              <BrowseRoute>
+                <RestaurantList />
+              </BrowseRoute>
+            }
+          />
+          <Route
+            path="/restaurants/:id"
+            element={
+              <BrowseRoute>
+                <RestaurantMenu />
+              </BrowseRoute>
+            }
+          />
+          <Route
+            path="/dishes"
+            element={
+              <BrowseRoute>
+                <DishSearch />
+              </BrowseRoute>
+            }
+          />
 
           {/* Auth pages: logged-in users are redirected to their role home. */}
           <Route element={<PublicOnlyRoute />}>
@@ -23,7 +60,17 @@ export default function App() {
             <Route path="/register" element={<Register />} />
           </Route>
 
-          {/* Task 14.6: customer routes (cart, checkout, orders, customer dashboard, insights). */}
+          {/* Cart (Customer only). */}
+          <Route
+            path="/cart"
+            element={
+              <ProtectedRoute allowedRoles={[ROLES.CUSTOMER]}>
+                <CartCheckout />
+              </ProtectedRoute>
+            }
+          />
+
+          {/* Task 14.6: remaining customer routes (orders, customer dashboard, insights). */}
           {/* Task 15.4: restaurant owner routes (/owner/*). */}
           {/* Task 16.3: delivery partner routes (/partner/*). */}
 

@@ -5,11 +5,12 @@
 // - Authenticated users also get a Logout button, which clears the session and goes to /login.
 // - At 768px and below the links collapse behind a hamburger button (`aria-expanded`,
 //   `aria-controls`); the menu closes when the route changes or a link is used.
-// - Extension point: `NavBadge` renders extra content next to a link. Task 13.7 adds the
-//   Cart item count there.
-import { useEffect, useId, useState } from "react";
+// - `NavBadge` shows the Cart item count next to the Cart link (hidden at 0). It reads the cart
+//   context directly and falls back to 0 when no CartProvider is mounted.
+import { useContext, useEffect, useId, useState } from "react";
 import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext.jsx";
+import CartContext from "../context/CartContext.jsx";
 import { ROLES } from "../utils/roles.js";
 
 const RESTAURANTS = { to: "/restaurants", label: "Restaurants" };
@@ -41,9 +42,19 @@ export function linksForRole(role) {
   return ROLE_LINKS[role] ?? VISITOR_LINKS;
 }
 
-// eslint-disable-next-line no-unused-vars
+/** Cart item count; 0 when no CartProvider is mounted (e.g. isolated Navbar tests). */
+function useCartCount() {
+  return useContext(CartContext)?.count ?? 0;
+}
+
 function NavBadge({ to }) {
-  return null; // Task 13.7: show the Cart item count when `to === "/cart"`.
+  const count = useCartCount();
+  if (to !== "/cart" || count <= 0) return null;
+  return (
+    <span className="navbar-badge" role="img" aria-label={`${count} ${count === 1 ? "item" : "items"} in cart`}>
+      {count}
+    </span>
+  );
 }
 
 export default function Navbar() {
