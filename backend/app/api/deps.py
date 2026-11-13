@@ -23,6 +23,9 @@ from app.models import Order, Restaurant, Role, User
 # invalid token) instead of FastAPI's default 403.
 bearer = HTTPBearer(auto_error=False)
 
+_INT32_MIN = -(2**31)
+_INT32_MAX = 2**31 - 1
+
 
 def get_db() -> Iterator[Session]:
     """Yield one Session per request inside a single transaction.
@@ -59,6 +62,10 @@ def get_current_user(
         user_id = int(payload["sub"])
     except (jwt.PyJWTError, ValueError, TypeError):
         raise UnauthorizedError("Invalid or expired token") from None
+    if not _INT32_MIN <= user_id <= _INT32_MAX:
+        # ``users.id`` is a 32-bit INTEGER; PostgreSQL raises "integer out of range" (a 500)
+        # for a larger value, so an id that cannot exist is rejected before the lookup.
+        raise UnauthorizedError("Invalid or expired token")
     user = db.get(User, user_id)
     if user is None:
         raise UnauthorizedError("Invalid or expired token")
