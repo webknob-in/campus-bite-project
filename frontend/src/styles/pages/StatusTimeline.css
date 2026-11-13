@@ -1,0 +1,99 @@
+/* StatusTimeline: Order lifecycle steps and terminal banner. Requirements 12.4, 12.5. */
+.status-timeline {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.status-timeline-step {
+  display: flex;
+  flex: 1 1 8rem;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-1);
+  padding: var(--space-3) var(--space-2);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  color: var(--color-text-muted);
+  text-align: center;
+}
+
+.status-timeline-marker {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  border: 2px solid currentColor;
+  border-radius: 50%;
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+}
+
+.status-timeline-label {
+  font-weight: 600;
+}
+
+.status-timeline-state {
+  font-size: var(--font-size-sm);
+}
+
+.status-timeline-step--completed {
+  border-color: var(--color-success);
+  color: var(--color-success);
+}
+
+.status-timeline-step--current {
+  border-width: 2px;
+  border-color: var(--color-primary);
+  background: var(--color-bg);
+  color: var(--color-text);
+}
+
+.status-timeline-step--current .status-timeline-marker {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: var(--color-primary-contrast);
+}
+
+.status-timeline-banner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2) var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--color-border);
+  border-left-width: 4px;
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+}
+
+.status-timeline-banner--cancelled {
+  border-color: var(--color-danger);
+  color: var(--color-danger);
+}
+
+.status-timeline-banner--refunded {
+  border-color: var(--color-secondary);
+  color: var(--color-secondary);
+}
+
+@media (max-width: 480px) {
+  .status-timeline {
+    flex-direction: column;
+  }
+
+  .status-timeline-step {
+    flex-direction: row;
+    justify-content: flex-start;
+    text-align: left;
+  }
+
+  .status-timeline-state {
+    margin-left: auto;
+  }
+}

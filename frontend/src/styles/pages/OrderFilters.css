@@ -1,0 +1,24 @@
+/* OrderFilters: status select and date range. Requirements 14, 24.4. */
+.order-filters {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+  gap: var(--space-3) var(--space-4);
+  align-items: start;
+  margin-bottom: var(--space-4);
+}
+
+.order-filters-actions {
+  display: flex;
+  align-items: flex-end;
+  min-height: 100%;
+}
+
+@media (max-width: 480px) {
+  .order-filters {
+    grid-template-columns: 1fr;
+  }
+
+  .order-filters-actions .btn {
+    width: 100%;
+  }
+}
