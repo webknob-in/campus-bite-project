@@ -3,7 +3,7 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.api.routers import auth, health, orders, owner_insights, owner_menu, owner_orders, owner_returns, partner, restaurants
+from app.api.routers import ai, auth, health, orders, owner_insights, owner_menu, owner_orders, owner_returns, partner, restaurants
 from app.core.config import get_settings
 from app.core.errors import register_exception_handlers
 from app.core.logging import configure_logging
@@ -90,6 +90,7 @@ def create_app() -> FastAPI:
     app.include_router(owner_returns.router)
     app.include_router(owner_insights.router)
     app.include_router(partner.router)
+    app.include_router(ai.router)
     return app
 
 
