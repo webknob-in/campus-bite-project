@@ -1,3 +1,5 @@
+from contextlib import asynccontextmanager
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -35,10 +37,28 @@ OPENAPI_TAGS = [
 ]
 
 
+@asynccontextmanager
+async def lifespan(_app: FastAPI):
+    # Only runs the in-process scheduler when explicitly enabled (never on Vercel serverless).
+    enabled = get_settings().enable_scheduler
+    if enabled:
+        from app.scheduler import start_scheduler
+
+        start_scheduler()
+    try:
+        yield
+    finally:
+        if enabled:
+            from app.scheduler import stop_scheduler
+
+            stop_scheduler()
+
+
 def create_app() -> FastAPI:
     configure_logging()
     settings = get_settings()  # fail fast at startup when DATABASE_URL or JWT_SECRET is missing (Req 39.6)
     app = FastAPI(
+        lifespan=lifespan,
         title=API_TITLE,
         version=API_VERSION,
         description=API_DESCRIPTION,
