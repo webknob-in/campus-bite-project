@@ -6,8 +6,8 @@ Traceability from every rule in `project-brief.txt` (§1-§14 and Submission Gui
 
 | Status | Rows | Meaning |
 |---|---|---|
-| Verified | 164 | Implemented and covered by a named automated test or a verification command that was run (result recorded) |
-| Pending | 6 | Can only be completed at deployment time: tasks 18.x (task 18.7 updates these rows) |
+| Verified | 170 | Implemented and covered by a named automated test or a verification command that was run (result recorded) |
+| Pending | 0 | Deployment-time items P1-P5 were completed by task 18.7 |
 | Open gaps | 0 | Gap found in 17.2 (see below) was closed with a new test |
 
 Rows marked **Verified (cmd)** were verified by a command that was run during task 17.2 (see "How to verify"). Every other Verified row names an automated test. Implemented-but-untested rows: none.
@@ -245,8 +245,8 @@ Shorthand for the backend routes: see `backend/tests/test_routes.py` (`REQUIRED`
 | §13 | README: database setup instructions | `README.md` "Database setup" | same command | Verified |
 | §13 | README: API documentation details | `README.md` "API documentation" | same command | Verified |
 | §13 | Seed data for demo | `backend/scripts/seed.py`, `README.md` "Demo credentials" | `test_browse_and_seed.py::test_seed_twice_keeps_row_counts_identical`, `test_seed_creates_expected_users_restaurants_and_dishes`; Verified (cmd) D2 | Verified |
-| §13 | Sensitive information not committed | `.gitignore`, `.dockerignore` | Verified (cmd) S1 on the working tree; final-history scan is Pending (P5) | Verified |
-| §13 | Prepare application for deployment | `frontend/vercel.json`, `backend/.env.example` (Supabase pooler note), `README.md` "Deployment" | Live URLs: Pending (P3, P4) | Pending |
+| §13 | Sensitive information not committed | `.gitignore`, `.dockerignore` | Verified (cmd) S1 on the working tree; final-history scan P5 done | Verified |
+| §13 | Prepare application for deployment | `frontend/vercel.json`, `backend/.env.example` (Supabase pooler note), `README.md` "Deployment" | Live URLs: https://campusbite-two-gamma.vercel.app (P3), https://campusbite-api-three.vercel.app/docs (P4) | Verified |
 
 ## §14 Expected outcome
 
@@ -265,21 +265,21 @@ Shorthand for the backend routes: see `backend/tests/test_routes.py` (`REQUIRED`
 
 | Section | Brief text | Implementing files | Verifying tests / command | Status |
 |---|---|---|---|---|
-| Submission | Submit only the GitHub repository link | `README.md` "Submission and live links" | `Select-String -Path README.md -Pattern 'github.com'` | Pending: task 18.x (P1: README links final) |
-| Submission | Repository must be Public | GitHub settings | P2: `curl.exe -s -o NUL -w "%{http_code}" https://github.com/webknob-in/campus-bite-project` returns `200` with no login; or `gh repo view webknob-in/campus-bite-project --json visibility` returns `PUBLIC` | Pending: task 18.x |
+| Submission | Submit only the GitHub repository link | `README.md` "Submission and live links" | `Select-String -Path README.md -Pattern 'github.com'` | Verified (P1) |
+| Submission | Repository must be Public | GitHub settings | P2: `curl.exe -s -o NUL -w "%{http_code}" https://github.com/webknob-in/campus-bite-project` returns `200` with no login; or `gh repo view webknob-in/campus-bite-project --json visibility` returns `PUBLIC` | Verified |
 | Submission | All project files (frontend, backend, Dockerfile, compose, README) are in the repository | `git ls-files` | `git ls-files frontend backend/Dockerfile docker-compose.yml README.md` is non-empty; after push compare `git ls-remote origin HEAD` with `git rev-parse HEAD` | Verified (local); remote check part of 18.x |
-| Submission | No API keys, passwords, DB credentials in the repository | `.gitignore`, `.env.example` | Verified (cmd) S1 on tracked files; P5: final-history secret scan `git log -p --all -S"sk-" --oneline` and `git log --all --diff-filter=A --name-only -- "*.env"` return nothing | Pending: task 18.x (P5) |
-| Submission | Application runs correctly and repository is accessible before submitting | live deployment | P3: Vercel frontend URL returns 200; P4: hosted API `/health` returns `{"status":"ok","database":"ok"}` and a login + order smoke test succeeds against the live URLs | Pending: task 18.x |
+| Submission | No API keys, passwords, DB credentials in the repository | `.gitignore`, `.env.example` | Verified (cmd) S1 on tracked files; P5: final-history secret scan `git log -p --all -S"sk-" --oneline` and `git log --all --diff-filter=A --name-only -- "*.env"` return nothing | Verified (P5) |
+| Submission | Application runs correctly and repository is accessible before submitting | live deployment | P3: Vercel frontend URL returns 200; P4: hosted API `/health` returns `{"status":"ok","database":"ok"}` and a login + order smoke test succeeds against the live URLs | Verified |
 
-### Pending items (updated by task 18.7)
+### Pending items (verified by task 18.7)
 
 | ID | Item | Verification command | Status |
 |---|---|---|---|
-| P1 | README live links filled in | `Select-String -Path README.md -Pattern 'Submission and live links' -Context 0,8` | Pending: task 18.x |
-| P2 | Repository is public | `gh repo view webknob-in/campus-bite-project --json visibility` (expect `PUBLIC`) | Pending: task 18.x |
-| P3 | Live frontend on Vercel | `curl.exe -s -o NUL -w "%{http_code}" <frontend-url>` (expect 200) | Pending: task 18.x |
-| P4 | Hosted backend and Supabase database, production smoke test | `curl.exe -s <api-url>/health`, then register/login/browse against `<api-url>` | Pending: task 18.x |
-| P5 | Secret scan over final git history | `git log --all -p -S"sk-" --oneline`; `git log --all --name-only --format= \| Select-String '(^\|/)\.env$'` (expect no output) | Pending: task 18.x |
+| P1 | README live links filled in | `Select-String -Path README.md -Pattern 'Submission and live links' -Context 0,8` | Verified |
+| P2 | Repository is public | `gh repo view webknob-in/campus-bite-project --json visibility` (expect `PUBLIC`) | Verified |
+| P3 | Live frontend on Vercel | `curl.exe -s -o NUL -w "%{http_code}" https://campusbite-two-gamma.vercel.app` (expect 200) | Verified |
+| P4 | Hosted backend and Supabase database, production smoke test | `curl.exe -s https://campusbite-api-three.vercel.app/health`, then register/login/browse against `https://campusbite-api-three.vercel.app` | Verified |
+| P5 | Secret scan over final git history | `git log --all -p -S"sk-" --oneline`; `git log --all --name-only --format= \| Select-String '(^\|/)\.env$'` (expect no output) | Verified |
 
 ## How to verify
 
@@ -295,4 +295,4 @@ Run from the repo root unless noted.
 4. Secrets (S1, run in task 17.2): `git ls-files | Select-String '(^|/)\.env$'` printed nothing; `git grep -n -I -E "sk-[A-Za-z0-9]{20,}" -- . ":!.kiro"` printed nothing.
 5. Remote: `git remote -v` shows `origin https://github.com/webknob-in/campus-bite-project.git`.
 6. Responsive: see `docs/RESPONSIVE_CHECK.md` for method and results.
-7. Pending items: run the commands in the Pending table after deployment.
+7. Pending items: all verified by task 18.7 (see table above).

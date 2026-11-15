@@ -6,9 +6,11 @@ CampusBite is a full-stack restaurant ordering and delivery platform for a campu
 
 | Item | URL |
 | --- | --- |
-| Repository (submission link) | `<TBD>` (to be filled by task 18.7) |
-| Frontend (Vercel) | `<TBD>` (to be filled by task 18.7) |
-| Backend API docs (Vercel) | `<TBD>/docs` (to be filled by task 18.7) |
+| Repository (submission link) | https://github.com/webknob-in/campus-bite-project |
+| Frontend (Vercel) | https://campusbite-two-gamma.vercel.app |
+| Backend API docs (Vercel) | https://campusbite-api-three.vercel.app/docs |
+
+The AI endpoints (`/ai/insights`) need `OPENAI_API_KEY` set on the backend; without it they return HTTP 503. The demo accounts listed under [Demo credentials](#demo-credentials) work on the live site.
 
 Related documents: [Brief compliance matrix](docs/COMPLIANCE.md) and [Responsive check results](docs/RESPONSIVE_CHECK.md).
 
@@ -100,7 +102,7 @@ campus-bite-project/
 │   │   ├── services/           # order state machine, AI, reminders, stats...
 │   │   ├── middleware/
 │   │   └── scheduler.py        # reminder scheduler
-│   ├── scripts/                # seed.py (smoke_test.py is added by task 18.6)
+│   ├── scripts/                # seed.py 
 │   └── tests/
 └── frontend/
     ├── .env.example
@@ -312,8 +314,6 @@ The backend and frontend are two separate Vercel projects, with Supabase Postgre
    cd backend
    python -m scripts.smoke_test https://<backend-url>
    ```
-
-   (`scripts/smoke_test.py` is added by task 18.6.)
 7. Record the live URLs in the table at the top of this README.
 
 Environment variables live in Vercel project settings only, never in the repository.
