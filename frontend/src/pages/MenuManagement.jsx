@@ -1,7 +1,7 @@
 // Menu management for restaurant owners (Requirement 16.8).
 // Searchable, paginated dish table with create/edit modal, delete confirmation and an
 // availability switch. Backend errors show inline.
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   createMenuItem,
   deleteMenuItem,
@@ -38,6 +38,20 @@ export function validateMenuForm(form) {
     errors.price = "Price must be at most 100000.";
   }
   return errors;
+}
+
+function Thumb({ url, name, className = "menu-thumb" }) {
+  const [failed, setFailed] = useState(false);
+  useEffect(() => setFailed(false), [url]);
+  return (
+    <div className={className} aria-hidden="true">
+      {url && !failed ? (
+        <img src={url} alt="" loading="lazy" onError={() => setFailed(true)} />
+      ) : (
+        <div className="menu-thumb-fallback">{name?.trim()?.charAt(0)?.toUpperCase() || "?"}</div>
+      )}
+    </div>
+  );
 }
 
 function MenuItemForm({ item, onClose, onSaved }) {
@@ -118,6 +132,7 @@ function MenuItemForm({ item, onClose, onSaved }) {
         <FormField label="Category" value={form.category} onChange={set("category")} />
         <FormField label="Description" as="textarea" rows={3} value={form.description} onChange={set("description")} />
         <FormField label="Image URL" value={form.image_url} onChange={set("image_url")} />
+        {form.image_url.trim() && <Thumb url={form.image_url.trim()} name={form.name} className="menu-image-preview" />}
         <label className="menu-available-check">
           <input
             type="checkbox"
@@ -230,6 +245,7 @@ export default function MenuManagement() {
               <table>
                 <thead>
                   <tr>
+                    <th className="menu-thumb-cell"><span className="visually-hidden">Image</span></th>
                     <th>Name</th>
                     <th>Price</th>
                     <th>Available</th>
@@ -241,6 +257,9 @@ export default function MenuManagement() {
                     const rs = rowState[item.id] ?? {};
                     return (
                       <tr key={item.id}>
+                        <td className="menu-thumb-cell">
+                          <Thumb url={item.image_url} name={item.name} />
+                        </td>
                         <td>{item.name}</td>
                         <td>{formatCurrency(item.price)}</td>
                         <td>

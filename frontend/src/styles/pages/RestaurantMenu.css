@@ -8,9 +8,11 @@
   display: grid;
   gap: var(--space-2);
   padding: var(--space-5);
-  background: var(--color-surface);
+  background: linear-gradient(135deg, #fff1ea 0%, var(--color-surface) 70%);
   border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
+  border-left: 4px solid var(--color-primary);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-sm);
 }
 
 .restaurant-header-main {

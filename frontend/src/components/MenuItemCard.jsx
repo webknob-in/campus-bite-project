@@ -12,7 +12,7 @@ export default function MenuItemCard({ item, onAdd, restaurantLink }) {
   const showImage = item.image_url && !imageFailed;
 
   return (
-    <article className="browse-card menu-item-card">
+    <article className={`browse-card menu-item-card${item.is_available ? "" : " is-unavailable"}`}>
       <div className="browse-card-media">
         {showImage ? (
           <img src={item.image_url} alt="" loading="lazy" onError={() => setImageFailed(true)} />

@@ -57,52 +57,71 @@ PARTNERS = [
 ]
 
 # Each restaurant: owner (name, email, phone), details, and dishes
-# (name, description, price, category, is_available).
+# (name, description, price, category, is_available, image_url).
 RESTAURANTS: list[dict[str, Any]] = [
     {
         "key": "curry",
+        "image_url": "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=800&q=70",
         "owner": ("Priya Owner", "owner.curry@campusbite.example.com", "9000000021"),
         "name": "Campus Curry House",
         "description": "Home-style North Indian curries, breads and rice bowls.",
         "cuisine": "Indian",
         "address": "Food Court, Block A, Campus",
         "dishes": [
-            ("Butter Chicken", "Creamy tomato gravy with tender chicken", "220.00", "Mains", True),
-            ("Paneer Tikka Masala", "Grilled paneer in spiced masala", "190.00", "Mains", True),
-            ("Dal Tadka", "Yellow lentils tempered with garlic and cumin", "120.00", "Mains", True),
-            ("Garlic Naan", "Tandoori flatbread with garlic butter", "40.00", "Breads", True),
-            ("Veg Biryani", "Fragrant basmati rice with vegetables", "150.00", "Rice", True),
-            ("Gulab Jamun", "Two warm syrup-soaked dumplings", "60.00", "Dessert", False),
+            ("Butter Chicken", "Creamy tomato gravy with tender chicken", "220.00", "Mains", True,
+                "https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?auto=format&fit=crop&w=800&q=70"),
+            ("Paneer Tikka Masala", "Grilled paneer in spiced masala", "190.00", "Mains", True,
+                "https://images.unsplash.com/photo-1567188040759-fb8a883dc6d8?auto=format&fit=crop&w=800&q=70"),
+            ("Dal Tadka", "Yellow lentils tempered with garlic and cumin", "120.00", "Mains", True,
+                "https://images.unsplash.com/photo-1546833999-b9f581a1996d?auto=format&fit=crop&w=800&q=70"),
+            ("Garlic Naan", "Tandoori flatbread with garlic butter", "40.00", "Breads", True,
+                "https://images.unsplash.com/photo-1626074353765-517a681e40be?auto=format&fit=crop&w=800&q=70"),
+            ("Veg Biryani", "Fragrant basmati rice with vegetables", "150.00", "Rice", True,
+                "https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?auto=format&fit=crop&w=800&q=70"),
+            ("Gulab Jamun", "Two warm syrup-soaked dumplings", "60.00", "Dessert", False,
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Gulab-jamun-wallpaper-1.jpg/960px-Gulab-jamun-wallpaper-1.jpg"),
         ],
     },
     {
         "key": "burgers",
+        "image_url": "https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&w=800&q=70",
         "owner": ("Rahul Owner", "owner.burgers@campusbite.example.com", "9000000022"),
         "name": "Byte Burgers",
         "description": "Smash burgers, fries and shakes for late-night study sessions.",
         "cuisine": "American",
         "address": "Food Court, Block B, Campus",
         "dishes": [
-            ("Classic Cheeseburger", "Beef patty, cheddar, pickles, house sauce", "180.00", "Burgers", True),
-            ("Crispy Chicken Burger", "Buttermilk fried chicken with slaw", "170.00", "Burgers", True),
-            ("Veggie Burger", "Black bean and corn patty", "140.00", "Burgers", True),
-            ("Loaded Fries", "Fries with cheese sauce and jalapenos", "110.00", "Sides", True),
-            ("Chocolate Shake", "Thick chocolate milkshake", "120.00", "Drinks", True),
+            ("Classic Cheeseburger", "Beef patty, cheddar, pickles, house sauce", "180.00", "Burgers", True,
+                "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=800&q=70"),
+            ("Crispy Chicken Burger", "Buttermilk fried chicken with slaw", "170.00", "Burgers", True,
+                "https://images.unsplash.com/photo-1606755962773-d324e0a13086?auto=format&fit=crop&w=800&q=70"),
+            ("Veggie Burger", "Black bean and corn patty", "140.00", "Burgers", True,
+                "https://images.unsplash.com/photo-1520072959219-c595dc870360?auto=format&fit=crop&w=800&q=70"),
+            ("Loaded Fries", "Fries with cheese sauce and jalapenos", "110.00", "Sides", True,
+                "https://images.unsplash.com/photo-1573080496219-bb080dd4f877?auto=format&fit=crop&w=800&q=70"),
+            ("Chocolate Shake", "Thick chocolate milkshake", "120.00", "Drinks", True,
+                "https://images.unsplash.com/photo-1572490122747-3968b75cc699?auto=format&fit=crop&w=800&q=70"),
         ],
     },
     {
         "key": "noodles",
+        "image_url": "https://images.unsplash.com/photo-1555126634-323283e090fa?auto=format&fit=crop&w=800&q=70",
         "owner": ("Mei Owner", "owner.noodles@campusbite.example.com", "9000000023"),
         "name": "Noodle Lab",
         "description": "Wok-tossed noodles, ramen and dumplings.",
         "cuisine": "Asian",
         "address": "Food Court, Block C, Campus",
         "dishes": [
-            ("Chicken Ramen", "Rich broth, noodles, egg and chicken", "210.00", "Ramen", True),
-            ("Veg Hakka Noodles", "Stir-fried noodles with vegetables", "130.00", "Noodles", True),
-            ("Schezwan Fried Rice", "Spicy fried rice with garlic", "140.00", "Rice", True),
-            ("Steamed Momos", "Six pieces with chilli dip", "100.00", "Starters", True),
-            ("Iced Lemon Tea", "Chilled tea with lemon", "70.00", "Drinks", True),
+            ("Chicken Ramen", "Rich broth, noodles, egg and chicken", "210.00", "Ramen", True,
+                "https://images.unsplash.com/photo-1569718212165-3a8278d5f624?auto=format&fit=crop&w=800&q=70"),
+            ("Veg Hakka Noodles", "Stir-fried noodles with vegetables", "130.00", "Noodles", True,
+                "https://images.unsplash.com/photo-1585032226651-759b368d7246?auto=format&fit=crop&w=800&q=70"),
+            ("Schezwan Fried Rice", "Spicy fried rice with garlic", "140.00", "Rice", True,
+                "https://images.unsplash.com/photo-1603133872878-684f208fb84b?auto=format&fit=crop&w=800&q=70"),
+            ("Steamed Momos", "Six pieces with chilli dip", "100.00", "Starters", True,
+                "https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?auto=format&fit=crop&w=800&q=70"),
+            ("Iced Lemon Tea", "Chilled tea with lemon", "70.00", "Drinks", True,
+                "https://images.unsplash.com/photo-1556679343-c7306c1976bc?auto=format&fit=crop&w=800&q=70"),
         ],
     },
 ]
@@ -165,28 +184,35 @@ def _get_or_create_restaurant(
         restaurant = Restaurant(
             owner_id=owner.id, name=spec["name"], description=spec["description"],
             cuisine=spec["cuisine"], address=spec["address"], is_open=True,
+            image_url=spec.get("image_url"),
         )
         db.add(restaurant)
         db.flush()
         counts["restaurants"] += 1
+    elif restaurant.image_url is None and spec.get("image_url"):
+        restaurant.image_url = spec["image_url"]  # backfill only; never overwrite
+        db.flush()
     return restaurant
 
 
 def _get_or_create_dish(
     db: Session, counts: dict[str, int], restaurant: Restaurant, dish: tuple
 ) -> MenuItem:
-    name, description, price, category, is_available = dish
+    name, description, price, category, is_available, image_url = dish
     item = db.scalar(
         select(MenuItem).where(MenuItem.restaurant_id == restaurant.id, MenuItem.name == name)
     )
     if item is None:
         item = MenuItem(
             restaurant_id=restaurant.id, name=name, description=description,
-            price=_money(Decimal(price)), category=category, is_available=is_available,
+            price=_money(Decimal(price)), category=category, is_available=is_available, image_url=image_url,
         )
         db.add(item)
         db.flush()
         counts["menu_items"] += 1
+    elif item.image_url is None and image_url:
+        item.image_url = image_url  # backfill only; never overwrite
+        db.flush()
     return item
 
 
